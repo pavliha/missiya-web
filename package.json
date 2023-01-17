@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
-    "postinstall": "prisma generate",
-    "lint": "next lint",
     "start": "next start",
-    "prettier": "npx prettier --write ."
+    "dev": "next dev",
+    "lint": "next lint",
+    "prettier": "npx prettier --write .",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",
