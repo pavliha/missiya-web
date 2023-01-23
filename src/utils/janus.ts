@@ -47,7 +47,7 @@ export const loadJanus = (server: string): void => {
 
         // Callback function, for when the server attached the plugin
         // successfully.
-        success: function(pluginHandle: JanusJS.UStreamerPluginHandle) {
+        success: function (pluginHandle: JanusJS.UStreamerPluginHandle) {
           uStreamerPluginHandle = pluginHandle;
           // Instruct the µStreamer Janus plugin to initiate streaming.
           uStreamerPluginHandle?.send({ message: { request: 'watch', params: { audio: true } } });
@@ -57,7 +57,7 @@ export const loadJanus = (server: string): void => {
         error: console.error,
 
         // Callback function for processing messages from the Janus server.
-        onmessage: function(msg: JanusJS.Message, jsepOffer: JanusJS.JSEP) {
+        onmessage: function (msg: JanusJS.Message, jsepOffer: JanusJS.JSEP) {
           // If there is a JSEP offer, respond to it. This starts the WebRTC
           // connection.
           if (jsepOffer) {
@@ -66,7 +66,7 @@ export const loadJanus = (server: string): void => {
               // Prevent the client from sending audio and video, as this would
               // trigger a permission dialog in the browser.
               media: { audioSend: false, videoSend: false },
-              success: function(jsepAnswer) {
+              success: function (jsepAnswer) {
                 uStreamerPluginHandle?.send({
                   message: { request: 'start' },
                   jsep: jsepAnswer,
@@ -78,7 +78,7 @@ export const loadJanus = (server: string): void => {
         },
 
         // Callback function, for when a media stream arrives.
-        onremotetrack: function(mediaStreamTrack: MediaStreamTrack, mediaId: number, isAdded: boolean) {
+        onremotetrack: function (mediaStreamTrack: MediaStreamTrack, mediaId: number, isAdded: boolean) {
           if (isAdded) {
             // Attach the received media track to the video element. Cloning the
             // mediaStreamTrack creates a new object with a distinct, globally
