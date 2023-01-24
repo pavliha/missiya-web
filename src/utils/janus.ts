@@ -1,9 +1,20 @@
 /* eslint-disable */
 import adapter from 'webrtc-adapter';
 
-export const loadJanus = (server: string): void => {
+interface LoadJanus {
+  server: string;
+  callback: () => void;
+  errorCallback: (error: Error) => void;
+}
+
+export const loadJanus = ({ server, callback, errorCallback }: LoadJanus): void => {
   // @ts-ignore
   const Janus = window.Janus as unknown as JanusJS.Janus;
+
+  const handleError = (error: Error) => {
+    console.error(error.message);
+    errorCallback(error);
+  };
 
   // Initialize Janus library.
   // @ts-ignore
@@ -33,7 +44,7 @@ export const loadJanus = (server: string): void => {
     success: attachUStreamerPlugin,
 
     // Callback function if the client fails to connect.
-    error: console.error,
+    error: handleError,
   });
 
   let uStreamerPluginHandle: JanusJS.UStreamerPluginHandle | null = null;
@@ -51,10 +62,12 @@ export const loadJanus = (server: string): void => {
         uStreamerPluginHandle = pluginHandle;
         // Instruct the µStreamer Janus plugin to initiate streaming.
         uStreamerPluginHandle?.send({ message: { request: 'watch', params: { audio: true } } });
+
+        callback();
       },
 
       // Callback function if the server fails to attach the plugin.
-      error: console.error,
+      error: handleError,
 
       // Callback function for processing messages from the Janus server.
       onmessage: function (msg: JanusJS.Message, jsepOffer: JanusJS.JSEP) {
@@ -72,7 +85,7 @@ export const loadJanus = (server: string): void => {
               jsep: jsepAnswer,
             });
           },
-          error: console.error,
+          error: handleError,
         });
       },
 
