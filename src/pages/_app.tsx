@@ -1,14 +1,14 @@
-import { type AppType } from 'next/app';
 import Script from 'next/script';
+import { type AppType } from 'next/app';
+import { AppHead } from 'src/components';
 import { api } from 'src/utils/api';
 import 'src/styles/globals.css';
-
-export const event = new Event('janus.loaded');
 
 const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
   return (
     <>
-      <Script src="/libs/janus.js" onLoad={() => window.dispatchEvent(event)} />
+      <AppHead />
+      <Script src="https://webrtc.github.io/adapter/adapter-8.1.0.js" />
       <Component {...pageProps} />
     </>
   );
