@@ -1,16 +1,9 @@
 {
   "overrides": [
     {
-      "extends": [
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
-      ],
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
-      "excludedFiles": [
-        "public/libs"
-      ],
+      "extends": ["plugin:@typescript-eslint/recommended-requiring-type-checking"],
+      "files": ["*.ts", "*.tsx"],
+      "excludedFiles": ["public/libs"],
       "parserOptions": {
         "project": "tsconfig.json"
       }
