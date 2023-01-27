@@ -22,7 +22,10 @@
     "next-auth": "^4.18.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.42.1",
+    "react-script-hook": "^1.7.2",
     "superjson": "1.9.1",
+    "webrtc-adapter": "^8.2.0",
     "zod": "^3.20.2"
   },
   "devDependencies": {

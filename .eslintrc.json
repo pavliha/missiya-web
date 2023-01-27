@@ -1,13 +1,9 @@
 {
   "overrides": [
     {
-      "extends": [
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
-      ],
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
+      "extends": ["plugin:@typescript-eslint/recommended-requiring-type-checking"],
+      "files": ["*.ts", "*.tsx"],
+      "excludedFiles": ["public/libs"],
       "parserOptions": {
         "project": "tsconfig.json"
       }
@@ -20,6 +16,7 @@
   "plugins": ["@typescript-eslint"],
   "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   "rules": {
-    "@typescript-eslint/consistent-type-imports": "warn"
+    "@typescript-eslint/consistent-type-imports": "warn",
+    "@typescript-eslint/no-misused-promises": ["error", { "checksVoidReturn": { "attributes": false } }]
   }
 }

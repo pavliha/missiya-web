@@ -5,7 +5,7 @@ export const AppHead: FC = () => {
   return (
     <Head>
       <title>Missiya</title>
-      <link rel='icon' href='../../logo.svg' />
+      <link rel="icon" href="../../logo.svg" />
     </Head>
   );
 };
