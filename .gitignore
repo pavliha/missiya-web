@@ -41,5 +41,5 @@ yarn-error.log*
 # vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
+# netlify
+.netlify
