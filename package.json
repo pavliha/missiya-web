@@ -20,6 +20,7 @@
     "@trpc/server": "^10.8.1",
     "@types/jest": "^29.4.0",
     "cypress": "^10.1.0",
+    "find-free-ports": "^3.0.0",
     "next": "13.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
