@@ -3,7 +3,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { setCorsHeaders } from 'src/utils/setCorsHeaders';
 import { METHODS } from 'src/server/constants';
-import { prisma } from 'src/server/db';
+// import { prisma } from 'src/server/db';
 import { findFreePorts } from 'find-free-ports';
 
 interface ConnectRequestBody {
@@ -17,11 +17,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { droneID } = req.body as ConnectRequestBody;
   try {
     if (!droneID) throw new Error('No Drone ID');
-    await prisma.example.create({
-      data: {
-        droneID,
-      },
-    });
+    // await prisma.example.create({
+    //   data: {
+    //     droneID,
+    //   },
+    // });
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
     const ports = await findFreePorts(4);
