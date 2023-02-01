@@ -10,7 +10,7 @@ export const VideoScript: FC = () => {
     src: '/libs/janus.js',
     onload: () => {
       loadJanus({
-        server: 'http://165.232.66.224:8088/janus',
+        server: 'http://api.missiya.com:8088/janus',
         callback: () => setLoadedVideo(true),
         errorCallback: (error) => setVideoError(error),
       });
@@ -21,5 +21,5 @@ export const VideoScript: FC = () => {
   if (loading) return <p className="text-white">Loading Stripe API...</p>;
   if (error) return <h3 className="text-white">Failed to load Stripe API: {error.message}</h3>;
 
-  return <video className="aspect-video w-full" id="webrtc-output" autoPlay playsInline poster="/logo.svg" />;
+  return <video className="aspect-video w-full" id="webrtc-output" autoPlay controls playsInline poster="/logo.svg" />;
 };
