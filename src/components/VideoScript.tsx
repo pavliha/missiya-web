@@ -1,10 +1,8 @@
 import { type FC, useState } from 'react';
 import useScript from 'react-script-hook';
 import { loadJanus } from 'src/utils/janus';
-import * as process from 'process';
 
-const serverUrl = (): string => {
-  const url = process.env.JANUS_URL;
+const serverUrl = (url?: string): string => {
   if (!url) throw new Error('No JANUS_URL');
   return url;
 };
@@ -17,7 +15,7 @@ export const VideoScript: FC = () => {
     src: '/libs/janus.js',
     onload: () => {
       loadJanus({
-        server: serverUrl(),
+        server: serverUrl(process.env.JANUS_URL),
         callback: () => setLoadedVideo(true),
         errorCallback: (error) => setVideoError(error),
       });
@@ -28,5 +26,14 @@ export const VideoScript: FC = () => {
   if (loading) return <p className="text-white">Loading video stream...</p>;
   if (error) return <h3 className="text-white">Failed to load video: {error.message}</h3>;
 
-  return <video className="aspect-video w-full" id="webrtc-output" autoPlay playsInline poster="/logo.svg" />;
+  return (
+    <video
+      autoPlay
+      controls
+      playsInline
+      id="webrtc-output"
+      poster="/logo.svg"
+      className="aspect-video w-8/12 rounded-lg border-0"
+    />
+  );
 };
