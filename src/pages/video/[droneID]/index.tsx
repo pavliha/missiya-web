@@ -8,7 +8,7 @@ const Video: NextPage = () => {
 
   return (
     <Layout>
-      <p className="text-white">Video Stream page {droneID}</p>
+      <p className="pb-24 text-2xl text-white">Video Stream page {droneID}</p>
       <VideoScript />
     </Layout>
   );

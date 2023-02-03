@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   const submit = async ({ droneID }: VideoFormData) => {
     await router.push({
       pathname: '/video/[droneID]',
-      query: { droneID },
+      query: { droneID: droneID.toLocaleUpperCase() },
     });
   };
 
