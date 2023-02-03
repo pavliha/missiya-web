@@ -2,10 +2,7 @@ import { type FC, useState } from 'react';
 import useScript from 'react-script-hook';
 import { loadJanus } from 'src/utils/janus';
 
-const serverUrl = (url?: string): string => {
-  if (!url) throw new Error('No JANUS_URL');
-  return url;
-};
+
 
 export const VideoScript: FC = () => {
   const [, setLoadedVideo] = useState<boolean>(false); // TODO: add logic for isLoadedVideo variable (??? if needed ???)
@@ -15,7 +12,7 @@ export const VideoScript: FC = () => {
     src: '/libs/janus.js',
     onload: () => {
       loadJanus({
-        server: serverUrl(process.env.JANUS_URL),
+        server: String(process.env.NEXT_PUBLIC_JANUS_URL),
         callback: () => setLoadedVideo(true),
         errorCallback: (error) => setVideoError(error),
       });

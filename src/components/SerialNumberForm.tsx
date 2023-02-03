@@ -10,7 +10,7 @@ interface Props {
   onSubmit: (value: VideoFormData) => Promise<void>;
 }
 
-export const DroneIDForm: FC<Props> = ({ onSubmit }) => {
+export const SerialNumberForm: FC<Props> = ({ onSubmit }) => {
   const {
     register,
     handleSubmit,

@@ -1,6 +1,6 @@
 import { type NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { DroneIDForm, Layout, type VideoFormData } from 'src/components';
+import { SerialNumberForm, Layout, type VideoFormData } from 'src/components';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -14,7 +14,7 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
-      <DroneIDForm onSubmit={submit} />
+      <SerialNumberForm onSubmit={submit} />
     </Layout>
   );
 };
