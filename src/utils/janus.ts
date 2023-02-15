@@ -26,6 +26,7 @@ export const loadJanus = ({ server, callback, errorCallback }: LoadJanus): void 
     dependencies: Janus.useDefaultDependencies({ adapter }),
   });
 
+  
   // Establish a WebSockets connection to the server.
   // @ts-ignore
   const janus = new Janus({
