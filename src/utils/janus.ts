@@ -32,7 +32,7 @@ export const loadJanus = ({ server, callback, errorCallback }: LoadJanus): void 
   const janus = new Janus({
     iceServers: [
       {
-        url: 'stun:stun4.l.google.com:19302?transport=udp',
+        urls: 'stun:stun.l.google.com:19302',
         // url: 'turn:relay.metered.ca:80?transport=udp', // TODO: check. on type RTCIceServers need to use urls
         // urls: 'turn:relay.metered.ca:80?transport=udp',
         // credential: 'OiUGIaVmsnkDnEJH',
