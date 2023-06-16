@@ -166,21 +166,21 @@ declare namespace JanusJS {
   }
 
   class Janus {
-    static useOldDependencies(deps: Partial<Dependencies>): Dependencies;
+    useOldDependencies(deps: Partial<Dependencies>): Dependencies;
 
-    static init(options: InitOptions): void;
+    init(options: InitOptions): void;
 
-    static isWebrtcSupported(): boolean;
+    isWebrtcSupported(): boolean;
 
-    static debug(...args: any[]): void;
+    debug(...args: any[]): void;
 
-    static log(...args: any[]): void;
+    log(...args: any[]): void;
 
-    static warn(...args: any[]): void;
+    warn(...args: any[]): void;
 
-    static error(...args: any[]): void;
+    error(...args: any[]): void;
 
-    static randomString(length: number): string;
+    randomString(length: number): string;
 
     constructor(options: ConstructorOptions);
 

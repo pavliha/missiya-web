@@ -1,6 +1,10 @@
 /* eslint-disable */
 import adapter from 'webrtc-adapter';
 
+type Window = {
+  Janus: JanusJS.Janus;
+} & typeof globalThis;
+
 interface LoadJanus {
   server: string;
   callback: () => void;
@@ -8,8 +12,7 @@ interface LoadJanus {
 }
 
 export const loadJanus = ({ server, callback, errorCallback }: LoadJanus): void => {
-  // @ts-ignore
-  const Janus = window.Janus as unknown as JanusJS.Janus;
+  const Janus = (window as unknown as Window).Janus;
 
   const handleError = (error: Error) => {
     console.error(error.message);
@@ -17,7 +20,6 @@ export const loadJanus = ({ server, callback, errorCallback }: LoadJanus): void 
   };
 
   // Initialize Janus library.
-  // @ts-ignore
   Janus.init({
     // Turn on debug logs in the browser console.
     debug: true,
@@ -26,7 +28,6 @@ export const loadJanus = ({ server, callback, errorCallback }: LoadJanus): void 
     dependencies: Janus.useDefaultDependencies({ adapter }),
   });
 
-  
   // Establish a WebSockets connection to the server.
   // @ts-ignore
   const janus = new Janus({
