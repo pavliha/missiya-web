@@ -11,6 +11,7 @@ export enum JanusStatus {
   REMOTE_TRACK_ARRIVED = 'REMOTE_TRACK_ARRIVED',
   MESSAGE_RECEIVED = 'MESSAGE_RECEIVED',
   ERROR = 'ERROR',
+  DETACHED = 'DETACHED',
 }
 
 export const useJanus = (serialNumber: string) => {
@@ -33,6 +34,7 @@ export const useJanus = (serialNumber: string) => {
             setStatus(JanusStatus.ERROR);
             setError(error);
           },
+          onDetached: () => setStatus(JanusStatus.DETACHED),
           onRemoteTrackArrived: () => setStatus(JanusStatus.REMOTE_TRACK_ARRIVED),
         });
       },

@@ -1,5 +1,6 @@
 /* eslint-disable */
 import adapter from 'webrtc-adapter';
+import { initJanus } from '../lib/janus/initJanus';
 
 type Window = {
   Janus: JanusJS.Janus;
@@ -13,13 +14,22 @@ interface LoadJanus {
   onRemoteTrackArrived: () => void;
 }
 
-export const loadJanus = ({ server, onInitStreaming, onError, onMessage, onRemoteTrackArrived }: LoadJanus): void => {
+export const loadJanus = ({
+  server,
+  onInitStreaming,
+  onError,
+  onMessage,
+  onRemoteTrackArrived,
+  onDetached,
+}: LoadJanus): void => {
   const Janus = (window as unknown as Window).Janus;
 
   const handleError = (error: Error) => {
     console.error(error.message);
     onError(error);
   };
+
+  initJanus(Janus.useDefaultDependencies({ adapter }));
 
   // Initialize Janus library.
   Janus.init({
@@ -87,6 +97,8 @@ export const loadJanus = ({ server, onInitStreaming, onError, onMessage, onRemot
       },
 
       onmute: (params) => console.log('muted', params),
+
+      ondetached: onDetached,
 
       // Callback function, for when a media stream arrives.
       onremotetrack: function (mediaStreamTrack: MediaStreamTrack, mediaId: number, isAdded: boolean) {
