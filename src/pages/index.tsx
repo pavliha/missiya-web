@@ -14,7 +14,9 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
-      <SerialNumberForm onSubmit={submit} />
+      <div className="container mx-auto flex flex-col items-center justify-center flex-1">
+        <SerialNumberForm onSubmit={submit} />
+      </div>
     </Layout>
   );
 };

@@ -7,16 +7,18 @@ type Window = {
 
 interface LoadJanus {
   server: string;
-  callback: () => void;
-  errorCallback: (error: Error) => void;
+  onInitStreaming: () => void;
+  onError: (error: Error) => void;
+  onMessage: (message: JanusJS.Message) => void;
+  onRemoteTrackArrived: () => void;
 }
 
-export const loadJanus = ({ server, callback, errorCallback }: LoadJanus): void => {
+export const loadJanus = ({ server, onInitStreaming, onError, onMessage, onRemoteTrackArrived }: LoadJanus): void => {
   const Janus = (window as unknown as Window).Janus;
 
   const handleError = (error: Error) => {
     console.error(error.message);
-    errorCallback(error);
+    onError(error);
   };
 
   // Initialize Janus library.
@@ -31,16 +33,8 @@ export const loadJanus = ({ server, callback, errorCallback }: LoadJanus): void 
   // Establish a WebSockets connection to the server.
   // @ts-ignore
   const janus = new Janus({
-    iceServers: [
-      {
-        urls: 'stun:stun.l.google.com:19302',
-        // url: 'turn:relay.metered.ca:80?transport=udp', // TODO: check. on type RTCIceServers need to use urls
-        // urls: 'turn:relay.metered.ca:80?transport=udp',
-        // credential: 'OiUGIaVmsnkDnEJH',
-        // username: '290524eef1beb21ac07041f3',
-      },
-    ],
-    server, // : 'http://165.232.66.224:8088/janus'
+    iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
+    server: 'http://MQ23Z0000002.local:8088/janus',
 
     // Callback function if the client connects successfully.
     success: attachUStreamerPlugin,
@@ -65,7 +59,7 @@ export const loadJanus = ({ server, callback, errorCallback }: LoadJanus): void 
         // Instruct the µStreamer Janus plugin to initiate streaming.
         uStreamerPluginHandle?.send({ message: { request: 'watch', params: { audio: true } } });
 
-        callback();
+        onInitStreaming();
       },
 
       // Callback function if the server fails to attach the plugin.
@@ -73,6 +67,7 @@ export const loadJanus = ({ server, callback, errorCallback }: LoadJanus): void 
 
       // Callback function for processing messages from the Janus server.
       onmessage: function (msg: JanusJS.Message, jsepOffer: JanusJS.JSEP) {
+        onMessage(msg);
         // If there is a JSEP offer, respond to it. This starts the WebRTC
         // connection.
         if (!jsepOffer) return;
@@ -91,8 +86,11 @@ export const loadJanus = ({ server, callback, errorCallback }: LoadJanus): void 
         });
       },
 
+      onmute: (params) => console.log('muted', params),
+
       // Callback function, for when a media stream arrives.
       onremotetrack: function (mediaStreamTrack: MediaStreamTrack, mediaId: number, isAdded: boolean) {
+        onRemoteTrackArrived();
         if (isAdded) {
           // Attach the received media track to the video element. Cloning the
           // mediaStreamTrack creates a new object with a distinct, globally
