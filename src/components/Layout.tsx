@@ -1,13 +1,16 @@
+import Image from 'next/image';
+
 import type { FC, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
 }
 
-export const Layout: FC<Props> = ({ children }) => {
-  return (
-    <main className="flex min-h-screen flex-col justify-center bg-gradient-to-br from-[#3437D1] to-[#16162E]">
-      <div className="flex flex-col items-center justify-center">{children}</div>
-    </main>
-  );
-};
+export const Layout: FC<Props> = ({ children }) => (
+  <main className="flex flex-col h-screen relative">
+    <div className="absolute ml-6 mt-6 h-[56px] w-[96px] self-start">
+      <Image src="/logo.svg" fill alt="Logo" />
+    </div>
+    <div className="container mx-auto flex flex-col items-center justify-center flex-1">{children}</div>
+  </main>
+);

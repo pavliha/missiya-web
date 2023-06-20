@@ -1,14 +1,14 @@
 import { type NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { SerialNumberForm, Layout, type VideoFormData } from 'src/components';
+import { SerialNumberForm, Layout, type VideoFormValues } from 'src/components';
 
 const Home: NextPage = () => {
   const router = useRouter();
 
-  const submit = async ({ droneID }: VideoFormData) => {
+  const submit = async ({ serialNumber }: VideoFormValues) => {
     await router.push({
-      pathname: '/video/[droneID]',
-      query: { droneID: droneID.toLocaleUpperCase() },
+      pathname: '/video/[serialNumber]',
+      query: { serialNumber: serialNumber.toLocaleUpperCase() },
     });
   };
 
