@@ -10,10 +10,22 @@ interface LoadJanus {
   onInitStreaming: () => void;
   onError: (error: Error) => void;
   onMessage: (message: JanusJS.Message) => void;
-  onRemoteTrackArrived: () => void;
+  onRemoteTrack: () => void;
+  onDetached: () => void;
+  onMute: () => void;
+  onUnmute: () => void;
 }
 
-export const loadJanus = ({ server, onInitStreaming, onError, onMessage, onRemoteTrackArrived }: LoadJanus): void => {
+export const loadJanus = ({
+  server,
+  onInitStreaming,
+  onError,
+  onMessage,
+  onRemoteTrack,
+  onDetached,
+  onMute,
+  onUnmute,
+}: LoadJanus): void => {
   const Janus = (window as unknown as Window).Janus;
 
   const handleError = (error: Error) => {
@@ -34,7 +46,7 @@ export const loadJanus = ({ server, onInitStreaming, onError, onMessage, onRemot
   // @ts-ignore
   const janus = new Janus({
     iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
-    server: 'http://MQ23Z0000002.local:8088/janus',
+    server, // : 'http://MQ23Z0000002.local:8088/janus',
 
     // Callback function if the client connects successfully.
     success: attachUStreamerPlugin,
@@ -86,11 +98,15 @@ export const loadJanus = ({ server, onInitStreaming, onError, onMessage, onRemot
         });
       },
 
-      onmute: (params) => console.log('muted', params),
+      onmute: onMute,
+
+      ondetached: onDetached,
+
+      onunmute: onUnmute,
 
       // Callback function, for when a media stream arrives.
       onremotetrack: function (mediaStreamTrack: MediaStreamTrack, mediaId: number, isAdded: boolean) {
-        onRemoteTrackArrived();
+        onRemoteTrack();
         if (isAdded) {
           // Attach the received media track to the video element. Cloning the
           // mediaStreamTrack creates a new object with a distinct, globally

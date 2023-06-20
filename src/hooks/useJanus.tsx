@@ -11,6 +11,9 @@ export enum JanusStatus {
   REMOTE_TRACK_ARRIVED = 'REMOTE_TRACK_ARRIVED',
   MESSAGE_RECEIVED = 'MESSAGE_RECEIVED',
   ERROR = 'ERROR',
+  DETACHED = 'DETACHED',
+  MUTE = 'MUTE',
+  UNMUTE = 'UNMUTE',
 }
 
 export const useJanus = (serialNumber: string) => {
@@ -29,11 +32,14 @@ export const useJanus = (serialNumber: string) => {
           server: `https://${serialNumber}.${String(process.env.NEXT_PUBLIC_API_HOST)}/janus`,
           onMessage: () => setStatus(JanusStatus.MESSAGE_RECEIVED),
           onInitStreaming: () => setStatus(JanusStatus.INIT_STREAMING),
+          onDetached: () => setStatus(JanusStatus.DETACHED),
+          onMute: () => setStatus(JanusStatus.MUTE),
           onError: (error) => {
             setStatus(JanusStatus.ERROR);
             setError(error);
           },
-          onRemoteTrackArrived: () => setStatus(JanusStatus.REMOTE_TRACK_ARRIVED),
+          onUnmute: () => setStatus(JanusStatus.UNMUTE),
+          onRemoteTrack: () => setStatus(JanusStatus.REMOTE_TRACK_ARRIVED),
         });
       },
     };

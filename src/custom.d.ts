@@ -192,10 +192,13 @@ declare namespace JanusJS {
 
     attach(options: {
       onmessage: (msg: JanusJS.Message, jsepOffer: JanusJS.JSEP) => void;
+      onmute: () => void;
+      ondetached: () => void;
       plugin: string;
       success: (pluginHandle: JanusJS.UStreamerPluginHandle) => void;
       onremotetrack: (mediaStreamTrack: MediaStreamTrack, mediaId: number, isAdded: boolean) => void;
-      error: (...data: any[]) => void;
+      onunmute: () => void;
+      error: (error: Error) => void
     }): void;
 
     useDefaultDependencies(deps?: Partial<Dependencies>): Dependencies;
