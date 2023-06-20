@@ -32,11 +32,9 @@ export const VideoScript: FC<Props> = ({ serialNumber }) => {
   return (
     <video
       autoPlay
-      controls
       playsInline
       id="webrtc-output"
-      poster="/logo.svg"
-      className="aspect-video w-8/12 rounded-lg border-0"
+      className="aspect-video w-8/12 rounded-md border-0 bg-[#212121]"
     />
   );
 };
