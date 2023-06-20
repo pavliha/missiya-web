@@ -1,15 +1,20 @@
+import type { LiteralUnion } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
-import InputMask from 'react-input-mask';
-import Image from 'next/image';
 
 import { type FC } from 'react';
+import { RightArrow } from './RightArrow';
 
-export interface VideoFormData {
-  droneID: string;
+const errorMessages: Record<LiteralUnion<'required' | 'pattern', string>, string> = {
+  required: 'This field is required. Please enter serial number.',
+  pattern: 'Please enter correct serial number.',
+};
+
+export interface VideoFormValues {
+  serialNumber: string;
 }
 
 interface Props {
-  onSubmit: (value: VideoFormData) => Promise<void>;
+  onSubmit: (value: VideoFormValues) => Promise<void>;
 }
 
 export const SerialNumberForm: FC<Props> = ({ onSubmit }) => {
@@ -17,36 +22,29 @@ export const SerialNumberForm: FC<Props> = ({ onSubmit }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<VideoFormData>();
+  } = useForm<VideoFormValues>();
 
-  const errorDroneType = errors.droneID?.type;
+  const serialNumberErrorType = errors.serialNumber?.type;
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="w-4/12 min-w-fit rounded-lg border border-gray-200 bg-white p-6 pr-3 shadow"
-    >
-      <p className="mt-2 mb-4 text-xl">Please enter UAV serial number to continue:</p>
-
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full md:w-[600px] px-4">
       <div className="mb-2 flex">
-        <InputMask
-          mask="aa99a9999999"
+        <input
           className="w-full rounded-md border border-[#A6A5A5] px-3 py-2 uppercase"
           placeholder="Example: MQ23Z0000001"
-          {...register('droneID', { required: true, pattern: /^[a-zA-z]{2}[0-9]{2}[a-zA-Z][0-9]{7}/ })}
+          {...register('serialNumber', { required: true, pattern: /^[a-zA-z]{2}[0-9]{2}[a-zA-Z][0-9]{7}/ })}
         />
         <button
           type="submit"
           className="relative ml-2 h-14 w-14 rounded-full p-2 hover:bg-[#F5F5F5] active:bg-[#F1F1F1]"
         >
-          <Image src="/rightArrow.svg" fill alt="Right Arrow" />
+          <RightArrow />
         </button>
       </div>
 
-      {errorDroneType === 'required' && (
-        <p className="text-sm text-red-700">This field is required. Please enter serial number.</p>
-      )}
-      {errorDroneType === 'pattern' && <p className="text-sm text-red-700">Please enter correct serial number.</p>}
+      <p className="text-sm text-muted">
+        {serialNumberErrorType ? errorMessages[serialNumberErrorType] : 'Please enter your drone serial number'}
+      </p>
     </form>
   );
 };
