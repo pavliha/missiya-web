@@ -27,7 +27,13 @@ export const SerialNumberForm: FC<Props> = ({ onSubmit }) => {
   const serialNumberErrorType = errors.serialNumber?.type;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full md:w-[600px] px-4">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit(onSubmit);
+      }}
+      className="w-full md:w-[600px] px-4"
+    >
       <div className="mb-2 flex">
         <input
           className="w-full rounded-md border border-[#A6A5A5] px-3 py-2 uppercase"
@@ -43,7 +49,7 @@ export const SerialNumberForm: FC<Props> = ({ onSubmit }) => {
       </div>
 
       <p className="text-sm text-muted">
-        {serialNumberErrorType ? errorMessages[serialNumberErrorType] : 'Please enter your drone serial number'}
+        {serialNumberErrorType ? errorMessages[serialNumberErrorType] : 'Please enter your vehicle serial number'}
       </p>
     </form>
   );
