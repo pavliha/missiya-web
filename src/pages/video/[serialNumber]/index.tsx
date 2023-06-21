@@ -11,7 +11,7 @@ const messages: Record<JanusStatus, (serialNumber: string) => string> = {
   [JanusStatus.LOADED_SCRIPT]: (serialNumber: string) => `Waiting for ${serialNumber} to be online...`,
   [JanusStatus.REMOTE_TRACK_ARRIVED]: () => `Streaming...`,
   [JanusStatus.INIT_STREAMING]: () => `Starting stream...`,
-  [JanusStatus.ERROR]: () => `Error streaming`,
+  [JanusStatus.ERROR]: () => `Probably a network error, is the raspberry connected?`,
   [JanusStatus.MESSAGE_RECEIVED]: () => `Streaming...`,
   [JanusStatus.DETACHED]: () => `Closed connection`,
   [JanusStatus.MUTE]: () => `Removing remote track`,
