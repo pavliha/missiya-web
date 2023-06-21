@@ -27,6 +27,7 @@
     "react-input-mask": "^2.0.4",
     "react-script-hook": "^1.7.2",
     "superjson": "^1.12.2",
+    "tailwind-merge": "^1.13.2",
     "webrtc-adapter": "^8.2.0",
     "zod": "^3.20.2"
   },
