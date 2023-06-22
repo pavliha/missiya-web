@@ -45,8 +45,32 @@ export const loadJanus = ({
   // Establish a WebSockets connection to the server.
   // @ts-ignore
   const janus = new Janus({
-    iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
-    server, // : 'http://MQ23Z0000002.local:8088/janus',
+    iceServers: [
+      {
+        urls: 'stun:stun.relay.metered.ca:80',
+      },
+      {
+        urls: 'turn:a.relay.metered.ca:80',
+        username: '290524eef1beb21ac07041f3',
+        credential: 'OiUGIaVmsnkDnEJH',
+      },
+      {
+        urls: 'turn:a.relay.metered.ca:80?transport=tcp',
+        username: '290524eef1beb21ac07041f3',
+        credential: 'OiUGIaVmsnkDnEJH',
+      },
+      {
+        urls: 'turn:a.relay.metered.ca:443',
+        username: '290524eef1beb21ac07041f3',
+        credential: 'OiUGIaVmsnkDnEJH',
+      },
+      {
+        urls: 'turn:a.relay.metered.ca:443?transport=tcp',
+        username: '290524eef1beb21ac07041f3',
+        credential: 'OiUGIaVmsnkDnEJH',
+      },
+    ],
+    server: 'http://mq23z0000002.local:8088/janus',
 
     // Callback function if the client connects successfully.
     success: attachUStreamerPlugin,
