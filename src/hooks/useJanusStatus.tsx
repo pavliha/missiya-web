@@ -18,17 +18,17 @@ export type JanusStatus =
 export type JanusUnion = DiscriminatedUnion<
   'kind',
   {
-    IDLE: {};
-    LOADING_SCRIPT: {};
+    IDLE: unknown;
+    LOADING_SCRIPT: unknown;
     LOADING_SCRIPT_ERROR: { error: Error };
-    LOADED_SCRIPT: {};
-    INIT_STREAMING: {};
-    REMOTE_TRACK_ARRIVED: {};
+    LOADED_SCRIPT: unknown;
+    INIT_STREAMING: unknown;
+    REMOTE_TRACK_ARRIVED: unknown;
     MESSAGE_RECEIVED: { message: JanusJS.Message };
     ERROR: { error: Error };
-    DETACHED: {};
-    MUTE: {};
-    UNMUTE: {};
+    DETACHED: unknown;
+    MUTE: unknown;
+    UNMUTE: unknown;
   }
 >;
 
