@@ -8,7 +8,7 @@ export enum ScriptStatus {
   ERROR = 'ERROR',
 }
 
-export const useJanusScript = () => {
+export const useJanusScriptStatus = () => {
   const [status, setStatus] = useState<ScriptStatus>(ScriptStatus.IDLE);
 
   const [loading, error] = useScript({
@@ -21,5 +21,5 @@ export const useJanusScript = () => {
     if (loading) setStatus(ScriptStatus.LOADING);
   }, [error, loading]);
 
-  return { status };
+  return status;
 };

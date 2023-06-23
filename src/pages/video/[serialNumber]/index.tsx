@@ -2,31 +2,30 @@ import { useState } from 'react';
 import { type NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { Layout } from 'src/components';
-import { JanusStatus, useJanus } from 'src/hooks/useJanus';
+import { JanusStatus, JanusUnion, useJanusStatus } from 'src/hooks/useJanusStatus';
 
-const messages: Record<JanusStatus, (serialNumber: string) => string> = {
-  [JanusStatus.IDLE]: () => 'Waiting for drone to be online...',
-  [JanusStatus.LOADING_SCRIPT]: () => 'Initialing...',
-  [JanusStatus.LOADING_SCRIPT_ERROR]: () => 'Failed to initialize',
-  [JanusStatus.LOADED_SCRIPT]: (serialNumber: string) => `Waiting for ${serialNumber} to be online...`,
-  [JanusStatus.REMOTE_TRACK_ARRIVED]: () => `Streaming...`,
-  [JanusStatus.INIT_STREAMING]: () => `Starting stream...`,
-  [JanusStatus.ERROR]: () => `Error streaming`,
-  [JanusStatus.MESSAGE_RECEIVED]: () => `Streaming...`,
-  [JanusStatus.DETACHED]: () => `Closed connection`,
-  [JanusStatus.MUTE]: () => `Removing remote track`,
-  [JanusStatus.UNMUTE]: () => `Recovered remote track`,
+const messages: Record<JanusStatus, (status: JanusUnion, serialNumber: string) => string> = {
+  IDLE: () => 'Waiting for drone to be online...',
+  LOADING_SCRIPT: () => 'Initialing...',
+  LOADING_SCRIPT_ERROR: (status) => (status as { error: Error }).error.message,
+  LOADED_SCRIPT: (_, serialNumber) => `Waiting for ${serialNumber} to be online...`,
+  REMOTE_TRACK_ARRIVED: () => `Streaming...`,
+  INIT_STREAMING: () => `Starting stream...`,
+  ERROR: () => `Error streaming`,
+  MESSAGE_RECEIVED: () => `Streaming...`,
+  DETACHED: () => `Closed connection`,
+  MUTE: () => `Removing remote track`,
+  UNMUTE: () => `Recovered remote track`,
 };
 
 const VideoPage: NextPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-
-  const handlePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
   const router = useRouter();
-  const { serialNumber } = router.query;
-  const { status } = useJanus(String(serialNumber));
+  const serialNumber = String(router.query.serialNumber);
+  const status = useJanusStatus(serialNumber);
+  const createMessage = messages[status.kind];
+
+  const handlePlayPause = () => setIsPlaying(!isPlaying);
 
   return (
     <Layout className="bg-[#212121]">
@@ -35,7 +34,7 @@ const VideoPage: NextPage = () => {
       </div>
       <div className="absolute left-6 top-6 text-lg text-white flex items-center">
         <div className="rounded-full w-4 h-4 bg-red-600 mx-2" />
-        {messages[status](String(serialNumber))}
+        {createMessage(status, serialNumber)}
       </div>
     </Layout>
   );

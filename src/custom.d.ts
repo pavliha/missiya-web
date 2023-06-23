@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+declare type DiscriminatedUnion<K extends PropertyKey, T extends object> = {
+  [P in keyof T]: { [Q in K]: P } & T[P] extends infer U ? { [Q in keyof U]: U[Q] } : never;
+}[keyof T];
+
 declare global {
   const Janus: string;
 }
@@ -198,7 +202,7 @@ declare namespace JanusJS {
       success: (pluginHandle: JanusJS.UStreamerPluginHandle) => void;
       onremotetrack: (mediaStreamTrack: MediaStreamTrack, mediaId: number, isAdded: boolean) => void;
       onunmute: () => void;
-      error: (error: Error) => void
+      error: (error: Error) => void;
     }): void;
 
     useDefaultDependencies(deps?: Partial<Dependencies>): Dependencies;
