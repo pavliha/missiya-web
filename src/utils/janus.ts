@@ -46,6 +46,7 @@ export const loadJanus = ({
   // @ts-ignore
   const janus = new Janus({
     iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
       {
         urls: 'stun:stun.relay.metered.ca:80',
       },
@@ -70,7 +71,7 @@ export const loadJanus = ({
         credential: 'OiUGIaVmsnkDnEJH',
       },
     ],
-    server: 'http://mq23z0000002.local:8088/janus',
+    server,
 
     // Callback function if the client connects successfully.
     success: attachUStreamerPlugin,

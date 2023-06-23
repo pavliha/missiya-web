@@ -32,7 +32,7 @@ export type JanusUnion = DiscriminatedUnion<
   }
 >;
 
-const makeJanusStatusMap = (serialNumber: string, setStatus: (status: JanusUnion) => void) => {
+const handleJanusStatus = (serialNumber: string, setStatus: (status: JanusUnion) => void) => {
   setStatus({ kind: 'LOADED_SCRIPT' });
   loadJanus({
     server: `https://${serialNumber}.${String(process.env.NEXT_PUBLIC_API_HOST)}/janus`,
@@ -62,7 +62,7 @@ export const useJanusStatus = (serialNumber: string): JanusUnion => {
   const [status, setStatus] = useState<JanusUnion>({ kind: 'IDLE' });
 
   useEffect(() => {
-    const handleLoaded = () => makeJanusStatusMap(serialNumber, setStatus);
+    const handleLoaded = () => handleJanusStatus(serialNumber, setStatus);
     const statusMap = makeStatusMap(setStatus, handleLoaded);
     statusMap[scriptStatus]();
   }, [scriptStatus, serialNumber]);
